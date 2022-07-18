@@ -31,6 +31,6 @@ export class UserController {
 
   @Post()
   createUser(@Body() payload: UserInterface) {
-    return payload;
+    return this.userService.createUser(payload);
   }
 }
