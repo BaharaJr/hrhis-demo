@@ -1,17 +1,10 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { SharedBaseEntity } from '../../shared/entities/base.entity';
+import { Post } from '../post/post.entity';
 
 @Entity('users')
-export class User {
-  @PrimaryGeneratedColumn('rowid')
-  id: number;
-
-  @Column()
+export class User extends SharedBaseEntity {
+  @Column({ unique: true })
   username: string;
 
   @Column({ nullable: true })
@@ -23,9 +16,6 @@ export class User {
   @Column()
   name: string;
 
-  @CreateDateColumn()
-  created: Date;
-
-  @UpdateDateColumn()
-  lastUpdated: Date;
+  @OneToMany(() => Post, (post) => post.createdBy)
+  posts: Post[];
 }
