@@ -1,24 +1,30 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import {
   CreateUserResponse,
   UserInterface,
 } from '../../core/interfaces/user.interface';
+import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
+  constructor(@InjectRepository(User) private repository: Repository<User>) {}
   users: UserInterface[] = [];
 
-  getUsers(): UserInterface[] {
-    return this.users;
+  async getUsers(): Promise<UserInterface[]> {
+    return await this.repository.find();
   }
 
-  getUser(id: number): UserInterface {
-    return this.users.find((user) => Number(user.id) === Number(id));
+  async getUser(id: number): Promise<UserInterface> {
+    return await this.repository.findOneBy({ id });
+
+    //findOne({ where: { id } });
   }
 
-  /*
+  /**
    * CreateUser method is of type CreateUserResponse and accepts a payload argument of type UserInterface
-   * @payload {payload}
+   * @params {payload}
    * @returns {CreateUserResponse}
    */
   createUser(payload: UserInterface): CreateUserResponse {

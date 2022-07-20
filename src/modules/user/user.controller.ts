@@ -15,12 +15,17 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
-  getUsers(): UserInterface[] {
-    return this.userService.getUsers();
+  async getUsers(): Promise<UserInterface[]> {
+    const users = await this.userService.getUsers();
+    console.log(users);
+    return users;
   }
   @Get(':id')
-  getUser(@Param() params: { id: number }, @Res() res): UserInterface {
-    const user = this.userService.getUser(params.id);
+  async getUser(
+    @Param() params: { id: number },
+    @Res() res,
+  ): Promise<UserInterface> {
+    const user = await this.userService.getUser(params.id);
     if (user) {
       return res.status(HttpStatus.OK).send(user);
     }

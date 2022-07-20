@@ -7,6 +7,7 @@ export class AppController {
 
   @Get()
   getHello(): { status: boolean; message: string } {
+    console.log('STATUS', new Date());
     return this.appService.getHello();
   }
 }

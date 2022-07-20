@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  api:
+    image: baharajr/demo
+    container_name: hrhis
+    build: .
+    restart: always
+    command: npm run start:dev
+    healthcheck:
+      test: curl -H "http://localhost:3200 || exit 1
+      interval: 30s
+      timeout: 30s
+    volumes:
+      - ./src:/app/src
+    ports:
+      - 6777:3006
+    depends_on:
+      - hrhis-demo-db
+    env_file:
+      - .env
+  
+  hrhis-demo-db:
+    image: postgres:10.12-alpine
+    restart: always
+    env_file:
+      - .env

@@ -3,7 +3,7 @@ export interface UserInterface {
   name: string;
   username: string;
   phone: string;
-  email: string;
+  // email: string;
 }
 
 export interface CreateUserResponse {
